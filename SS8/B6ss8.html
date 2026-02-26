@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const players = [
+            "Messi - Forward - 30 - 10 - 25",
+            "Ronaldo - Forward - 28 - 17 - 30",
+            "Neymar - Forward - 15 - 18 - 49",
+            "De Bruyne - Midfielder - 8 - 25 - 35",
+            "Van Dijk - Defender - 5 - 3 - 33",
+            "Alisson - Goalkeeper - 0 - 0 - 20"
+        ];
+
+        function reportByPosition(players) {
+            console.log("BÁO CÁO HIỆU SUẤT THEO VỊ TRÍ\n");
+
+            let grouped = players
+                .map(player => {
+                    let parts = player.split(" - ");
+                    return {
+                        name: parts[0],
+                        position: parts[1],
+                        goals: parseInt(parts[2]),
+                        assists: parseInt(parts[3]),
+                        matches: parseInt(parts[4])
+                    };
+                })
+                .reduce((acc, p) => {
+                    if (!acc[p.position]) {
+                        acc[p.position] = [];
+                    }
+                    acc[p.position].push(p);
+                    return acc;
+                }, {});
+
+            let totalGoals = 0;
+
+            Object.keys(grouped).forEach(pos => {
+                let group = grouped[pos];
+                let count = group.length;
+                let sumGoals = group.reduce((acc, g) => acc + g.goals, 0);
+                let sumAssists = group.reduce((acc, g) => acc + g.assists, 0);
+                let sumMatches = group.reduce((acc, g) => acc + g.matches, 0);
+                let avgPerformance = sumMatches > 0 
+                    ? ((sumGoals + sumAssists) / sumMatches).toFixed(2) 
+                    : 0;
+
+                totalGoals += sumGoals;
+
+                console.log(`${pos}:`);
+                console.log(`- Số cầu thủ: ${count}`);
+                console.log(`- Tổng bàn thắng: ${sumGoals}`);
+                console.log(`- Tổng kiến tạo: ${sumAssists}`);
+                console.log(`- Tổng số trận: ${sumMatches}`);
+                console.log(`- Trung bình hiệu suất/trận: ${avgPerformance}\n`);
+            });
+
+            console.log("------------------------");
+            console.log("Tổng bàn thắng toàn đội : " + totalGoals);
+        }
+
+
+    </script>
+</body>
+</html>

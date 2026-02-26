@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const squad = [
+            ["Nguyen Van A", 10, "FW"],
+            ["Tran Van B", 5, "MF"],
+            ["Le Van C", 2, "DF"],
+            ["Pham Van D", 12, "FW"],
+            ["Hoang Van E", 0, "GK"],
+            ["Dang Van F", 7, "MF"],
+        ];
+
+        let choose;
+        do {
+            choose = prompt(`--- QUẢN LÝ ĐỘI BÓNG ---
+                1. xem danh sách đội bóng
+                2. tìm kiếm cầu thủ
+                3. lọc vị trí
+                4. tính tổng bàn thắng
+                5. kiểm tra hiệu suất
+                0. thoát 
+            `);
+
+            switch (choose) {
+                case "0":
+                    console.log("=> Hẹn gặp lại!");
+                    break;
+                case "1":
+                    displayPlayer();
+                    break;
+                case "2":
+                    searchForPlayer();
+                    break;
+                case "3":
+                    filterByPosition();
+                    break;
+                case "4":
+                    totalGoals();
+                    break;
+                case "5":
+                    checkPerformance();
+                    break;
+                default:
+                    console.log("lựa chọn không hợp lệ!");
+                    break;
+            }
+        } while (choose !== "0");
+
+        // Chức năng 1: Xem danh sách
+        function displayPlayer() {
+            squad.forEach(value => {
+                console.log(`Tên: ${value[0]} (${value[2]}): ${value[1]} bàn thắng`);
+            });
+        }
+
+        // Chức năng 2: Tìm kiếm cầu thủ
+        function searchForPlayer() {
+            let name = prompt("Mời nhập tên cầu thủ:");
+            let result = squad.find(value => value[0].toLowerCase() === name.toLowerCase());
+            if (result) {
+                console.log(`Thông tin cầu thủ: ${result[0]} - Vị trí: ${result[2]} - Bàn thắng: ${result[1]}`);
+            } else {
+                console.log("Không tìm thấy cầu thủ!");
+            }
+        }
+
+        // Chức năng 3: Lọc cầu thủ theo vị trí
+        function filterByPosition() {
+            let pos = prompt("Mời nhập vị trí cần lọc (FW/MF/DF/GK):");
+            let result = squad.filter(value => value[2] === pos);
+            if (result.length > 0) {
+                console.log("=> KẾT QUẢ LỌC:");
+                result.forEach(p => console.log(`- ${p[0]} (${p[1]} bàn)`));
+            } else {
+                console.log("Không có cầu thủ nào ở vị trí này!");
+            }
+        }
+
+        // Chức năng 4: Thống kê tổng bàn thắng
+        function totalGoals() {
+            let sum = squad.reduce((acc, value) => acc + value[1], 0);
+            console.log(`=> Tổng số bàn thắng toàn đội: ${sum} bàn`);
+        }
+
+        // Chức năng 5: Kiểm tra hiệu suất
+        function checkPerformance() {
+            let hasZero = squad.some(value => value[1] === 0);
+            let allScored = squad.every(value => value[1] > 0);
+
+            if (hasZero) {
+                console.log("=> Có cầu thủ chưa ghi bàn");
+            }
+            if (allScored) {
+                console.log("=> Tất cả cầu thủ đều đã ghi bàn");
+            }
+        }
+    </script>
+</body>
+</html>

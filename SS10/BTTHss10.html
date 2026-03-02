@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        
+        let squad = [
+        { id: 1, name: "Nguyen Van A", goals: 10, position: "FW" },
+        { id: 2, name: "Tran Van B", goals: 5,  position: "MF" },
+        { id: 3, name: "Le Van C",   goals: 0,  position: "DF" },
+        { id: 4, name: "Pham Van D", goals: 12, position: "FW" },
+        { id: 5, name: "Dang Van E", goals: 0,  position: "GK" }
+        ];
+
+        function showSquad() {
+        console.log("=> DANH SÁCH:");
+        squad.forEach(player => {
+            console.log(`Mã ${player.id} - ${player.name} (${player.position}): ${player.goals} bàn`);
+        });
+        }
+
+        function addPlayer(name, goals, position) {
+        const newId = squad.length + 1; // hoặc Date.now()
+        const newPlayer = { id: newId, name, goals, position };
+        squad.push(newPlayer);
+        console.log("=> Đã thêm cầu thủ:", newPlayer);
+        }
+
+        function findPlayer(id) {
+        const player = squad.find(p => p.id === id);
+        if (player) {
+            console.log("=> Thông tin cầu thủ:", player);
+        } else {
+            console.log("Không tìm thấy cầu thủ với ID", id);
+        }
+        }
+
+        function updateGoals(id) {
+        const player = squad.find(p => p.id === id);
+        if (player) {
+            player.goals += 1;
+            console.log(`=> Đã cập nhật: ${player.name} hiện có ${player.goals} bàn thắng.`);
+        } else {
+            console.log("Không tìm thấy cầu thủ với ID", id);
+        }
+        }
+
+        function deletePlayer(id) {
+        const index = squad.findIndex(p => p.id === id);
+        if (index !== -1) {
+            const removed = squad.splice(index, 1)[0];
+            console.log(`=> Đã chuyển nhượng cầu thủ: ${removed.name}`);
+        } else {
+            console.log("Không tìm thấy cầu thủ với ID", id);
+        }
+        }
+        let choose;
+        do {
+            choose = prompt(`--- QUẢN LÝ ĐỘI BÓNG ---
+                1. Danh sách đội bóng
+                2. Thêm cầu thủ mới
+                3. Tìm cầu thủ theo ID
+                4. Cập nhật thành tích
+                5. Chuyển nhượng cầu thủ
+                0. thoát 
+            `);
+
+            switch (choose) {
+                case "0":
+                    alert (`Đã thoát chương trình`);
+                    break;
+                case "1":
+                    showSquad()
+                    break;
+                case "2":
+                    addPlayer()
+                    break;
+                case "3":
+                    findPlayer()
+                    break;
+                case "4":
+                    updateGoals()
+                    break;
+                case "5":
+                    deletePlayer()
+                    break;
+                default:
+                    console.log("lựa chọn không hợp lệ!");
+                    break;
+            }
+        } while (choose !== "0");
+
+    </script>
+</body>
+</html>

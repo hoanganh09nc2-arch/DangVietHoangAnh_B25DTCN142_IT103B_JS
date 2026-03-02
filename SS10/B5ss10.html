@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        
+        function generatePlayerSeasonReport(playerName, teamHistory) {
+        const player = teamHistory.find(p => p.name === playerName);
+        if (!player) {
+            return `Không tìm thấy cầu thủ ${playerName}`;
+        }
+        const seasons = Object.values(player.seasons);
+        const totalMatches = seasons.reduce((sum, s) => sum + s.matches, 0);
+        const totalGoals = seasons.reduce((sum, s) => sum + s.goals, 0);
+        const totalAssists = seasons.reduce((sum, s) => sum + s.assists, 0);
+        const totalYellowCards = seasons.reduce((sum, s) => sum + s.yellowCards, 0);
+        const averageGoalsPerMatch = (totalGoals / totalMatches).toFixed(2);
+        const averageAssistsPerMatch = (totalAssists / totalMatches).toFixed(2);
+        let bestSeason = seasons[0];
+        for (let s of seasons) {
+            if (
+            s.goals > bestSeason.goals ||
+            (s.goals === bestSeason.goals && s.assists > bestSeason.assists)
+            ) {
+            bestSeason = s;
+            }
+        }
+
+        const report = {
+            name: player.name,
+            position: player.position,
+            nationality: player.nationality,
+            careerStats: {
+            totalMatches,
+            totalGoals,
+            totalAssists,
+            totalYellowCards,
+            averageGoalsPerMatch: parseFloat(averageGoalsPerMatch),
+            averageAssistsPerMatch: parseFloat(averageAssistsPerMatch),
+            bestSeason: {
+                season: bestSeason.season,
+                goals: bestSeason.goals,
+                assists: bestSeason.assists
+            }
+            }
+        };
+
+        console.log(report);
+        return report;
+        }
+
+        const teamHistory = [
+        {
+            name: "Messi",
+            position: "Forward",
+            nationality: "Argentina",
+            seasons: {
+            "2022-2023": { season: "2022-2023", matches: 30, goals: 20, assists: 10, yellowCards: 2 },
+            "2023-2024": { season: "2023-2024", matches: 32, goals: 25, assists: 15, yellowCards: 3 },
+            "2024-2025": { season: "2024-2025", matches: 32, goals: 19, assists: 16, yellowCards: 1 }
+            }
+        }
+        ];
+
+        generatePlayerSeasonReport("Messi", teamHistory);
+
+    </script>
+</body>
+</html>

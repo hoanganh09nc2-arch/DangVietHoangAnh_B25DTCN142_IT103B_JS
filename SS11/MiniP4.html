@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let products = [
+            { id: `P01`, name: `Laptop Macbook pro M3`, price: 2000, category: `Laptop`, instock: true},
+            { id: `P02`, name: `Chuột không dây Logitech`, price: 45, category: `Phụ kiện`, instock: true},
+            { id: `P03`, name: `Bàn phím cơ keychron`, price: 95, category: `Phụ kiện`, instock: false},
+            { id: `P04`, name: `Màn hình Dell Ultrasharp`, price: 450, category: `Màn hình`, instock: true},
+            { id: `P05`, name: `Tai nghe Sony WH-1000XM5`, price: 350, category: `Phụ kiện`, instock: true},
+        ];
+        let findId = prompt(`Mời bạn nhập Id sản phẩm muốn tìm: `);
+        let displayProduct = products.filter((value) => {
+            return value[`id`].includes(findId) == true ;
+        });
+        console.log(displayProduct);
+        let checkPrice = products.every(value => value[`price`] > 0)
+        if(checkPrice){
+            console.log(`Dữ liệu bảng giá hợp lệ`);
+        } else {
+            console.log(`Phát hiện sản phẩm chưa cập nhật giá`);
+        }
+    </script>
+</body>
+</html>

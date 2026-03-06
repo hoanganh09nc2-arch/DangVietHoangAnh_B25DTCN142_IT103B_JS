@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form id="product-form">
+        <input type="text" id="product-name" placeholder="Tên sản phẩm">
+        <input type="number" id="product-price" placeholder="Gía (VND)">
+        <button type="submit" id="addBtn">Thêm Sản Phẩm</button>
+    </form>
+    <script>
+        const productForm = document.getElementById("product-form");
+        const nameProduct = document.getElementById("product-name");
+        const priceProduct = document.getElementById("product-price");
+        const addBtn = document.getElementById("addBtn");
+        addBtn.addEventListener(`click`,taskList)
+        function taskList() {
+            let nameInput = nameProduct.value;
+            let priceInput = priceProduct.value;
+            let newTast = {
+                name: nameInput,
+                price: priceInput
+            }
+        }
+        li.classList.add("product-item");
+        li.innerHTML = `
+            <span class="product-name">${newProduct.name}</span>
+            <span class="product-price">${newProduct.price} VND</span>
+        `;
+        productList.appendChild(li);
+        
+    </script>
+</body>
+</html>

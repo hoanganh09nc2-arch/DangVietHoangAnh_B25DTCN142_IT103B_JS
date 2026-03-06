@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <h2>Danh sách sản phẩm</h2>
+    <ul id="product-list">
+        <li class="product-item">
+            Sản phẩm 1
+            <button class="delete-btn">Xóa</button>
+        </li>
+        <li class="product-item">
+            Sản phẩm 2
+            <button class="delete-btn">Xóa</button>
+        </li>
+        <li class="product-item">
+            Sản phẩm 3
+            <button class="delete-btn">Xóa</button>
+        </li>
+    </ul>
+
+    <script>
+        const productList = document.getElementById('product-list');
+
+        productList.addEventListener('click', function(event) {
+            if (event.target.classList.contains('delete-btn')) {
+                const isConfirmed = confirm("Bạn có chắc muốn xóa sản phẩm này?");
+                
+                if (isConfirmed) {
+                    const itemToRemove = event.target.closest('.product-item');
+                    if (itemToRemove) {
+                        itemToRemove.remove();
+                    }
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>

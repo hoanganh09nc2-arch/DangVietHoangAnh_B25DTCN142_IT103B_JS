@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="">
+        <h2>Đăng kí</h2>
+            <label for="Email">Email</label>
+            <br>
+            <input id="values" name="Email" id="Email">
+            <br>
+            <label for="matkhau">Mật khẩu</label>
+            <br>
+            <input id="values" type="password" name="matkhau" id="matkhau">
+            <br>
+            <label for="matkhau">Nhập lại mật khẩu</label>
+            <br>
+            <input id="values" type="password" name="matkhau" id="matkhau">
+            <br>
+            <button onclick="submit()">Đăng kí</button>
+    </form>
+    <script>
+        let value = document.getElementById('values');
+        value.onclick = function submit() {
+            console.log(value);
+
+        };
+
+    </script>
+</body>
+</html>

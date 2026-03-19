@@ -1,0 +1,217 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Tết Checklist</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700&display=swap" rel="stylesheet"/>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1a0a00;
+  font-family: 'Be Vietnam Pro', sans-serif;
+}
+
+.app {
+  width: 380px;
+  background: linear-gradient(160deg, #c0392b, #e74c3c 50%, #c0392b);
+  border-radius: 20px;
+  padding: 28px 24px 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.app::before, .app::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,220,0,0.09);
+  pointer-events: none;
+}
+.app::before { width: 180px; height: 180px; top: -40px; right: -40px; }
+.app::after  { width: 220px; height: 220px; bottom: -60px; left: -60px; }
+
+/* Header */
+.hd { text-align: center; margin-bottom: 20px; }
+.hd h1 { font-size: 24px; font-weight: 700; color: #FFD700; margin-bottom: 4px; }
+.hd p  { font-size: 13px; color: rgba(255,255,255,0.75); }
+
+.deco { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 6px 0 18px; }
+.deco hr { flex: 0 0 60px; border: none; height: 1.5px; background: rgba(255,215,0,0.4); }
+
+/* Tasks */
+.list { display: flex; flex-direction: column; gap: 10px; }
+
+.item {
+  display: flex;
+  align-items: center;
+  background: rgba(255,245,210,0.97);
+  border-radius: 14px;
+  padding: 13px 16px;
+  border: 1.5px solid rgba(255,215,0,0.3);
+  position: relative;
+  overflow: hidden;
+}
+.item::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+  background: #FFD700;
+  border-radius: 14px 0 0 14px;
+}
+
+.icon  { font-size: 20px; margin-right: 12px; }
+.name { flex: 1; font-size: 15px; font-weight: 500; color: #5a2800; }
+.tag  {
+  font-size: 12px; font-weight: 500;
+  color: #b86800; padding: 3px 10px;
+  border-radius: 20px;
+  background: rgba(255,180,0,0.15);
+  border: 1px solid rgba(255,180,0,0.3);
+}
+
+/* Note */
+.note { text-align: center; margin-top: 14px; font-size: 11px; color: rgba(255,255,255,0.45); }
+
+.item.done .name { text-decoration: line-through; color: #a07850; }
+.item.done .tag  { color: #4a8a3a; background: rgba(80,180,60,0.15); border-color: rgba(80,180,60,0.3); }
+.item.done::before { background: #5a8a3a; }
+
+.add-form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.add-form input {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1.5px solid rgba(255,215,0,0.4);
+  background: rgba(255,245,210,0.95);
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 14px;
+  color: #5a2800;
+  outline: none;
+}
+.add-form input::placeholder { color: #b8905a; }
+.add-form input:focus { border-color: #FFD700; }
+.add-form button {
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: none;
+  background: #FFD700;
+  color: #5a2800;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.add-form button:hover  { background: #ffe033; }
+.add-form button:active { transform: scale(0.97); }
+</style>
+</head>
+<body>
+
+<div class="app">
+    <div class="hd">
+        <h1>Chuẩn bị Tết Nguyên Đán</h1>
+        <div class="add-form">
+        <input type="text" id="newTask" placeholder="Nhập công việc mới..." />
+        <button id="addBtn">Thêm</button>
+    </div>
+        <p>Danh sách việc cần làm</p>
+    </div>
+
+    <ul id="list">
+    </ul>
+  <div class="note">Danh sách việc cần làm cho Tết</div>
+</div>
+
+<script>
+    const initialTodos = [
+        { id: 1, task: "Mua bánh chưng",     done: false },
+        { id: 2, task: "Dọn nhà đón Tết",   done: false },
+        { id: 3, task: "Gói bánh chưng",    done: false },
+        { id: 4, task: "Trang trí nhà cửa", done: false },
+    ];
+
+    const KEY  = "myTodos";
+    const list = document.getElementById("list");
+
+    function renderList(currentTodos) {
+        list.innerHTML = "";
+        currentTodos.forEach(todo => {
+            const card = document.createElement("div");
+            card.classList.add("item");
+            if (todo.done)  
+                card.classList.add("done");
+
+            card.innerHTML = `
+                <span class="icon">🌸</span>
+                <span class="name">${todo.task}</span>
+                <span class="tag">${todo.done ? "Hoàn thành" : "Chưa làm"}</span>`;
+
+            card.addEventListener("click", () => {
+                todo.done = !todo.done;
+                localStorage.setItem(KEY, JSON.stringify(currentTodos));
+                renderList(currentTodos);
+            });
+
+            const li = document.createElement("li");
+            li.appendChild(card);
+            list.appendChild(li);
+        });
+    }
+    function addTodo(currentTodos) {
+        const input = document.getElementById("newTask");
+        const task  = input.value.trim();
+
+        if (!task) return;               
+
+        const newTodo = {
+            id:   Date.now(),             
+            task: task,
+            done: false,
+        };
+
+        currentTodos.push(newTodo);
+        localStorage.setItem(KEY, JSON.stringify(currentTodos));
+        renderList(currentTodos);
+
+        input.value = "";                
+        input.focus();                 
+        }
+
+    function init() {
+        const raw = localStorage.getItem(KEY);
+        let currentTodos;
+
+        if (raw === null) {
+        currentTodos = initialTodos;
+        localStorage.setItem(KEY, JSON.stringify(currentTodos));
+        } else {
+        currentTodos = JSON.parse(raw);
+        }
+        renderList(currentTodos);
+        
+        document.getElementById("addBtn")
+        .addEventListener("click", () => addTodo(currentTodos));
+
+        document.getElementById("newTask")
+        .addEventListener("keydown", e => {
+        if (e.key === "Enter") addTodo(currentTodos);
+        });
+    }
+
+    init();
+</script>
+
+</body>
+</html>
